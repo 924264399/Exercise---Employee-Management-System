@@ -1,22 +1,34 @@
-#include <iostream>     //包含输入输出流文件
-using namespace std;	//使用标准命名空间
+#include <iostream>     
+using namespace std;	
+#include <string>
 #include "workerManager.h"
+
+#include "worker.h"
+#include "employee.h"
 
 
 int main()
 {
+	////测试代码
+	//Worker* worker = NULL;
+	//worker = new Employee(1,"tom", 1);
+	//worker->showInfo();
+
+
+
+
 	//实例化管理对象
-	WorkerManager wm;
+    WorkerManager wm;
 
 	int choice = 0; //用来存储用户的选项
 
 	while (true)
 	{
 		//调用成员函数
-		wm.Show_Menu();
+	wm.Show_Menu();
 
-		cout << "请输入您的选择：" << endl;
-		cin >> choice; //接受用户的选项
+	cout << "请输入您的选择：" << endl;
+	cin >> choice; //接受用户的选项
 
 
 		switch (choice)
