@@ -6,6 +6,11 @@ using namespace std;
 #include "boss.h"
 #include "employee.h"
 
+#include <fstream>   //用于操作文件
+#define FILENAME "empFile.txt"
+
+
+
 class WorkerManager
 {
 public:
@@ -27,8 +32,11 @@ public:
 	//添加职工函数
 	void Add_Emp();
 
+	//保存文件
+	void save();
 
-
+	//判断文件是否为空的标志
+	bool m_FileIsEmpty;
 
 	//析构
 	~WorkerManager();

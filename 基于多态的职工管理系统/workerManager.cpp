@@ -4,10 +4,26 @@
 //WorkerManager类的构造函数的实现 目前是空的
 WorkerManager::WorkerManager()
 {
-	//初始化实现
-	this->m_EmpNum = 0;
+	//1.文件不存在
+	ifstream ifs;
+	ifs.open(FILENAME, ios::in); //只读文件
 
-	this->m_EmpArray = NULL;
+	if(!ifs.is_open())
+	{
+		cout << "文件不存在"<<endl;
+
+		//初始化属性
+		this->m_EmpNum = 0;
+		this->m_EmpArray = NULL;
+		this->m_FileIsEmpty = true;
+		ifs.close();
+		return;
+	}
+
+	//初始化实现
+	/*this->m_EmpNum = 0;
+
+	this->m_EmpArray = NULL;*/
 
 }
 
@@ -128,10 +144,18 @@ void WorkerManager::Add_Emp()
 		//更新新的职工人数
 		this->m_EmpNum = newSzie;
 
+
+		//成功添加后  保存到文件中
+
+
+
+
+
 		//提示
 		cout << "成功添加" << addNum << "名新职工" << endl;
 
-
+		//保存数据到文件中
+		this->save();
 
 	}
 	else
@@ -140,14 +164,48 @@ void WorkerManager::Add_Emp()
 		cout << "输入有误" << endl;
 
 	}
+	//////按任意键后清屏 回到上级目录
+
+	system("pause");
+
+	system("cls");
 
 
 }
 
 
+
+//保存文件 主要用的是这个fstream这个库的东西
+void WorkerManager::save()
+{
+	ofstream ofs;
+	ofs.open(FILENAME, ios::out); //用输出的方式打开文件 -- 写文件  ios::out 写入模式（默认覆盖）  FILENAME是定义的一个宏  定义文件名 
+
+	//将每个人数据写入到文件中
+	for(int i = 0;i < this->m_EmpNum;i++)
+	{
+		ofs << this->m_EmpArray[i]->m_id << " "
+			<< this->m_EmpArray[i]->m_Name << " "
+			<< this->m_EmpArray[i]->m_DeptId << endl;
+
+	}
+
+	//关闭文件
+	ofs.close();
+
+
+
+}
+
+
+
 //WorkerManager类的析构函数的实现 目前是空的
 WorkerManager::~WorkerManager()
 {
+	if (this->m_EmpArray != NULL)
+	{
+		delete[] this->m_EmpArray;
+		this->m_EmpArray = NULL;
 
-
+	}///释放堆区的数据
 }
