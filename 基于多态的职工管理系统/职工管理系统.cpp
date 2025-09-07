@@ -22,7 +22,7 @@ int main()
 
 
 	//worker = new Boss(3, "wangwu", 3);
-	//worker->showInfo();
+	//worker->showInfo(); 
 	//delete worker;
 
 
@@ -48,6 +48,7 @@ int main()
 			break;
 
 		case 1: //增加职工
+			wm.Add_Emp();
 			break;
 
 		case 2: //显示职工

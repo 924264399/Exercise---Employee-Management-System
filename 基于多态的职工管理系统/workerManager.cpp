@@ -4,7 +4,10 @@
 //WorkerManager类的构造函数的实现 目前是空的
 WorkerManager::WorkerManager()
 {
+	//初始化实现
+	this->m_EmpNum = 0;
 
+	this->m_EmpArray = NULL;
 
 }
 
@@ -35,6 +38,108 @@ void WorkerManager::ExitSystem()
 	cout << "欢迎下次使用" << endl;
 	system("pause");
 	exit(0);    //退出程序的函数 来自C标准库
+
+
+}
+
+
+//增加职工
+void WorkerManager::Add_Emp()
+{
+	
+	cout << "请输入添加职工的数量:" << endl;
+	int addNum = 0; //保存用户输入数量
+
+	cin >> addNum;
+
+	if (addNum > 0)
+	{
+
+		//添加
+		//计算添加的空间大小
+		int newSzie = this->m_EmpNum + addNum; //新空间大小 = 原来的人数 + 新增人数
+
+		Worker ** newSpace = new Worker* [newSzie]; //正因为这个数组大小是要在运行阶段确定 即无法在编译前确定这个内存的大小 所以必须要在堆区进行创建
+
+		// 将原来空间下的数据，拷贝到新空间    这个很难理解吗  相当于先填充旧的数据
+		if (this->m_EmpArray != NULL)
+		{
+			for (int i = 0; i < this->m_EmpNum;i++)
+			{
+				newSpace[i] = this->m_EmpArray[i];
+
+			}
+
+		}
+
+		//添加新数据
+		for (int i=0;i < addNum;i++)
+		{
+
+			int id;//职工编号
+			string name; //职工姓名
+			int dSelect; //部门选择
+
+			cout << "请输入第" <<i+1<<"个新职工编号：" <<endl;
+			cin >> id;
+
+			cout << "请输入第" << i + 1 << "个新职工姓名：" << endl;
+			cin >> name;
+
+			cout << "请选择该职工的岗位：" << endl;
+			cout << "1.普通职工" << endl;
+			cout << "2.经理" << endl;
+			cout << "3.老板" << endl;
+
+			cin >> dSelect;
+
+			Worker* worker = NULL;   //多态哈
+			switch (dSelect)
+			{
+			case 1:
+				worker = new Employee(id, name, 1);   
+				break;
+			case 2:
+				worker = new Manager(id, name, 2);   
+				break;
+
+			case 3:
+				worker = new Boss(id, name, 3);  
+				break;
+
+			default:
+				break;
+
+
+			}
+			//将创建职工的职责 保存到数组中
+
+			newSpace[this->m_EmpNum + i] = worker;  //之前的加新的 就是index
+
+
+		}
+
+		///释放内存哈
+		delete[] this->m_EmpArray;
+
+		//更改新空间的指向
+		this->m_EmpArray = newSpace;
+
+		//更新新的职工人数
+		this->m_EmpNum = newSzie;
+
+		//提示
+		cout << "成功添加" << addNum << "名新职工" << endl;
+
+
+
+	}
+	else
+	{
+
+		cout << "输入有误" << endl;
+
+	}
 
 
 }
