@@ -25,6 +25,31 @@ WorkerManager::WorkerManager()
 
 	this->m_EmpArray = NULL;*/
 
+
+	//2.文件存在 但是数据为空
+	char ch;
+
+	ifs >> ch;
+	if (ifs.eof())
+	{
+		//文件为空
+		cout << "文件为空！" << endl;
+		this->m_EmpNum = 0;
+		this->m_EmpArray = NULL;
+		this->m_FileIsEmpty = true;
+		ifs.close();
+		return;
+
+	}
+
+
+	//3.文件存在 且有数据
+	int num = this->get_EmpNum();
+	cout << "职工的人数为：" << num << endl;
+
+	this->m_EmpNum = num;
+
+
 }
 
 
@@ -146,9 +171,7 @@ void WorkerManager::Add_Emp()
 
 
 		//成功添加后  保存到文件中
-
-
-
+		this->m_FileIsEmpty = false;
 
 
 		//提示
@@ -197,6 +220,28 @@ void WorkerManager::save()
 
 }
 
+
+int WorkerManager::get_EmpNum()
+{
+	ifstream ifs;
+	ifs.open(FILENAME, ios::in); //打开文件 读文件
+
+	int id;
+	string name;
+	int dId;
+
+	int num = 0;
+	while (ifs >> id && ifs >> name && ifs >> dId) //ifs >> id  先读取一个整数到id  operator>>返回流引用，可用于链式调用  所以ifs >> name就是顺序往下读取一个string到name 又因为是while 所以每次如果返回成功 就是true
+	{
+
+		//统计人数
+		num++;
+
+	}
+
+	return num;
+
+}
 
 
 //WorkerManager类的析构函数的实现 目前是空的
