@@ -41,6 +41,14 @@ public:
 	//统计文件中人数
 	int get_EmpNum();
 
+	//初始化员工
+	void init_Emp();
+
+
+	//显示职工
+	void Show_Emp();
+
+
 	//析构
 	~WorkerManager();
 

@@ -46,9 +46,12 @@ WorkerManager::WorkerManager()
 	//3.文件存在 且有数据
 	int num = this->get_EmpNum();
 	cout << "职工的人数为：" << num << endl;
-
 	this->m_EmpNum = num;
 
+	//开辟空间
+	this->m_EmpArray = new Worker * [this->m_EmpNum];
+	//将文件中的数据存到数组中
+	this->init_Emp();
 
 }
 
@@ -221,6 +224,7 @@ void WorkerManager::save()
 }
 
 
+//初始之 读取文件中的员工人数
 int WorkerManager::get_EmpNum()
 {
 	ifstream ifs;
@@ -242,6 +246,85 @@ int WorkerManager::get_EmpNum()
 	return num;
 
 }
+
+
+//初始化 读取文件中的员工信息
+void WorkerManager::init_Emp()
+{
+	ifstream ifs;
+	ifs.open(FILENAME, ios::in);
+
+	int id;
+	string name;
+	int dId;
+
+	int index = 0;
+	while (ifs >> id && ifs >> name && ifs >> dId)
+	{
+		Worker* worker = NULL;
+
+		if (dId == 1) //普通职工
+		{
+			worker = new Employee(id, name, dId);
+		}
+		else if (dId == 2)
+		{
+			worker = new Manager(id, name, dId);
+
+		}
+
+		else
+		{
+			worker = new Boss(id, name, dId);
+		}
+
+		this->m_EmpArray[index] = worker;
+
+		index++;
+	}
+	//关闭文件
+
+	ifs.close();
+}
+
+
+//显示职工
+void WorkerManager::Show_Emp()
+{
+	//判断文件是否为空 或者 存在
+
+	if (this->m_FileIsEmpty)
+	{
+		cout << "文件不存在 或者 记录为空" << endl;
+
+	}
+
+	else
+	{
+		for (int i = 0;i < m_EmpNum;i++)
+		{
+
+			//利用多态调用程序接口
+
+			this->m_EmpArray[i]->showInfo();//这个数组的每个元素都是一个对象 别把存储文件中的排布当成数组的排布
+
+		}
+		//按任意键后清屏
+
+		system("pause");
+		system("cls");
+
+
+
+
+	}
+
+
+
+
+
+}
+
 
 
 //WorkerManager类的析构函数的实现 目前是空的
