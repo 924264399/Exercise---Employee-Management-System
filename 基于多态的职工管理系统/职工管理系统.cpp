@@ -65,6 +65,7 @@ int main()
 			break;
 
 		case 5: //查找职工
+			wm.Fin_Emp();
 			break;
 
 		case 6: //排序职工

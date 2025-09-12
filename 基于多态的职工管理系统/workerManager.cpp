@@ -490,6 +490,106 @@ void WorkerManager::Mod_Emp()
 }
 
 
+void WorkerManager::Fin_Emp()
+{
+
+	if (this->m_FileIsEmpty)
+	{
+
+		cout << "文件不存在或者记录为空" << endl;
+
+	}
+	else
+	{
+		
+
+		cout << "请输入怎么查" << endl;
+		cout << "1.按照工号" << endl;
+		cout << "2.按照姓名" << endl;
+
+		int select = 0;
+		cin >> select;
+
+		if (select == 1)
+		{
+			//按照工号
+			int id;
+
+			cout << "请输入查找的编号是多少" << endl;
+			cin >> id;
+
+
+			int ret = this->IsExist(id);
+
+			if (ret != -1)
+			{
+				//找到职工
+				cout << "查找成功！该职工信息如下：" << endl;
+				this->m_EmpArray[ret]->showInfo();
+			}
+			else
+			{
+
+				cout << "查找失败" << endl;
+
+
+			}
+
+
+		}
+		else if(select == 2)
+		{
+			//按照姓名
+			string name;
+
+
+			cout << "请输入查找的name" << endl;
+			cin >> name;
+
+
+			//加入是否查到标志
+			bool flag = false;
+
+			//只能遍历了
+			for (int i = 0;i < this->m_EmpNum; i++)
+			{
+
+				if (this->m_EmpArray[i]->m_Name == name)
+				{
+
+					cout << "查找成功！该职工信息如下：" << endl;
+					this->m_EmpArray[i]->showInfo();
+
+					flag = true;
+
+					break;
+
+				}
+			
+			}
+
+			if (flag == false)
+			{
+
+				cout << "查找失败,查无此人" << endl;
+
+			}
+
+
+		}
+		else
+		{
+			cout << "输入无效" << endl;
+
+		}
+
+	}
+	//按任意键清屏
+	system("pause");
+
+	system("cls");
+
+}
 
 
 //WorkerManager类的析构函数的实现 目前是空的
