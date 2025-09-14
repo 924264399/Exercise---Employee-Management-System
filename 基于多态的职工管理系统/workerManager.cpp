@@ -296,6 +296,8 @@ void WorkerManager::Show_Emp()
 	if (this->m_FileIsEmpty)
 	{
 		cout << "文件不存在 或者 记录为空" << endl;
+		system("pause");
+		system("cls");
 
 	}
 
@@ -592,11 +594,141 @@ void WorkerManager::Fin_Emp()
 }
 
 
+void WorkerManager::Sort_Emp()
+{
+
+	if (this->m_FileIsEmpty)
+	{
+
+		cout << "文件不存在" << endl;
+
+	}
+	else
+	{
+		cout << "请选择升序还是降序" << endl;
+		cout << "输入1是升序" << endl;
+		cout << "输入2是升序" << endl;
+
+		int select;
+		cin >> select;
+
+
+		for (int i = 0;i < m_EmpNum;i++)
+		{
+			int minOrMax = i;//声明最小值 或 最大值
+
+			for (int j = i + 1;j < this->m_EmpNum;j++)
+			{
+				//升序
+				if (select == 1)
+				{
+					if (this->m_EmpArray[minOrMax]->m_id > this->m_EmpArray[j]->m_id)
+					{
+
+						minOrMax = j;
+					}
+				}
+				else//降序
+				{
+					if (this->m_EmpArray[minOrMax]->m_id < this->m_EmpArray[j]->m_id)
+					{
+
+						minOrMax = j;
+
+					}
+
+
+				}
+
+			}
+
+			//判断一开始认定 最小值或者最大值 是不是 计算的最小值或者最大值 如果不是 交换数据
+			if (i != minOrMax)
+			{
+				Worker* temp = this->m_EmpArray[i];
+
+				this->m_EmpArray[i] = this->m_EmpArray[minOrMax];
+
+				this->m_EmpArray[minOrMax] = temp;
+
+
+
+			}
+
+		}
+
+		cout << "排序成功" << endl;
+		this->save();
+		this->Show_Emp();
+
+	}
+
+
+}
+
+
+void WorkerManager::Clean_File()
+{
+	cout << "确认清空？" << endl;
+
+	cout << "1.确定" << endl;
+	cout << "1.返回" << endl;
+
+	int select;
+
+	cin >> select;
+
+	if (select == 1)
+	{
+
+		//清空文件
+		ofstream ofs(FILENAME, ios::trunc);  //ios::trunc 删除文件后再重新创建
+		ofs.close();
+
+		if (this->m_EmpArray != NULL)
+		{
+			//删除堆区的每个职工对象
+			for (int i = 0;i < this->m_EmpNum;i++)
+			{
+				delete this->m_EmpArray[i];
+				this->m_EmpArray[i] = NULL;
+
+			}
+
+			//删除堆区数组指针
+			delete[] this->m_EmpArray;
+			this->m_EmpArray = NULL;
+			this->m_EmpNum = 0;
+			this->m_FileIsEmpty = true;
+
+		}
+
+		cout << "清空成功" << endl;
+
+	}
+	
+	system("pause");
+	system("cls");
+
+}
+
+
 //WorkerManager类的析构函数的实现 目前是空的
 WorkerManager::~WorkerManager()
 {
 	if (this->m_EmpArray != NULL)
 	{
+		for (int i =0;i<this->m_EmpNum;i++)
+		{
+			if (this->m_EmpArray[i] != NULL)
+			{
+				delete this->m_EmpArray[i];
+
+			}
+
+
+		}
+
 		delete[] this->m_EmpArray;
 		this->m_EmpArray = NULL;
 

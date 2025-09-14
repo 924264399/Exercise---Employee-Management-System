@@ -60,6 +60,12 @@ public:
 	//查找职工
 	void Fin_Emp();
 
+	//排序
+	void Sort_Emp();
+
+	//清空文件
+	void Clean_File();
+
 
 	//析构
 	~WorkerManager();
